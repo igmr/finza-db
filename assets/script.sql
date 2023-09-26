@@ -13,9 +13,9 @@ CREATE TABLE IF NOT EXISTS users
     usr_observation TEXT              NULL DEFAULT NULL   COMMENT "Opcional, observaciones del usuario.",
     usr_file        VARCHAR(150)      NULL DEFAULT NULL   COMMENT "Opcional, carga de archivo.",
     usr_status      CHAR(10)          NULL DEFAULT NULL   COMMENT "Estatus actual de usuario: [activo | inactivo].",
-    usr_created_at  DATETIME          NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
-    usr_updated_at  DATETIME          NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
-    usr_deleted_at  DATETIME          NULL DEFAULT NULL   COMMENT "Información de auditoria.",
+    usr_created_at  TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
+    usr_updated_at  TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
+    usr_deleted_at  TIMESTAMP         NULL DEFAULT NULL   COMMENT "Información de auditoria.",
     CONSTRAINT      pkUser        PRIMARY KEY(usr_id),
     CONSTRAINT      ukUser        UNIQUE(usr_email, usr_username)
 ) COMMENT "Lista de usuarios con privilegios para el acceso al sistema.";
@@ -32,9 +32,9 @@ CREATE TABLE IF NOT EXISTS categories
     cta_observation  TEXT               NULL DEFAULT NULL   COMMENT "Opcional, observaciones de la categoría.",
     cat_file         VARCHAR(150)       NULL DEFAULT NULL   COMMENT "Opcional, carga de archivo.",
     cta_status       CHAR(10)           NULL DEFAULT NULL   COMMENT "Estatus actual de categoría: [activo | inactivo].",
-    cta_created_at   DATETIME           NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
-    cta_updated_at   DATETIME           NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
-    cta_deleted_at   DATETIME           NULL DEFAULT NULL   COMMENT "Información de auditoria.",
+    cta_created_at   TIMESTAMP          NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
+    cta_updated_at   TIMESTAMP          NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
+    cta_deleted_at   TIMESTAMP          NULL DEFAULT NULL   COMMENT "Información de auditoria.",
     CONSTRAINT       pkCategory     PRIMARY KEY(cta_id),
     CONSTRAINT       ukCategory     UNIQUE(cta_description),
     CONSTRAINT       fkCategoryUser FOREIGN KEY(cta_usr_id) REFERENCES users(usr_id)
@@ -51,9 +51,9 @@ CREATE TABLE IF NOT EXISTS accounts
     acc_observation  TEXT              NULL DEFAULT NULL   COMMENT "Opcional, observaciones de la cuenta.",
     acc_file         VARCHAR(150)      NULL DEFAULT NULL   COMMENT "Opcional, carga de archivo.",
     acc_status       CHAR(10)          NULL DEFAULT NULL   COMMENT "Estatus actual de cuenta: [activo | inactivo].",
-    acc_created_at   DATETIME          NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
-    acc_updated_at   DATETIME          NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
-    acc_deleted_at   DATETIME          NULL DEFAULT NULL   COMMENT "Información de auditoria.",
+    acc_created_at   TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
+    acc_updated_at   TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
+    acc_deleted_at   TIMESTAMP         NULL DEFAULT NULL   COMMENT "Información de auditoria.",
     CONSTRAINT       pkAccount     PRIMARY KEY(acc_id),
     CONSTRAINT       ukAccount     UNIQUE(acc_name),
     CONSTRAINT       fkAccountUser FOREIGN KEY(acc_usr_id) REFERENCES users(usr_id)
@@ -71,14 +71,53 @@ CREATE TABLE IF NOT EXISTS budgets
     bud_observation  TEXT              NULL DEFAULT NULL   COMMENT "Opcional, observaciones del presupuesto.",
     bud_file         VARCHAR(150)      NULL DEFAULT NULL   COMMENT "Opcional, carga de archivo.",
     bud_status       CHAR(10)          NULL DEFAULT NULL   COMMENT "Estatus actual de presupuesto: [activo | inactivo].",
-    bud_created_at   DATETIME          NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
-    bud_updated_at   DATETIME          NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
-    bud_deleted_at   DATETIME          NULL DEFAULT NULL   COMMENT "Información de auditoria.",
+    bud_created_at   TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
+    bud_updated_at   TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
+    bud_deleted_at   TIMESTAMP         NULL DEFAULT NULL   COMMENT "Información de auditoria.",
     CONSTRAINT       pkBudget          PRIMARY KEY(bud_id),
     CONSTRAINT       ukBudget          UNIQUE(bud_description),
     CONSTRAINT       fkBudgetUser      FOREIGN KEY(bud_usr_id) REFERENCES users(usr_id),
     CONSTRAINT       fkBudgetAccount   FOREIGN KEY(bud_acc_id) REFERENCES accounts(acc_id)
 ) COMMENT "Administración de presupuesto.";
+
+DROP TABLE IF EXISTS savings;
+CREATE TABLE IF NOT EXISTS savings
+(
+    sav_id            INT         NOT NULL AUTO_INCREMENT  COMMENT "Identificador de ahorro.",
+    sav_usr_id        INT             NULL DEFAULT 1       COMMENT "Clave foráneo de tabla users.",
+    sav_name          VARCHAR(65)     NULL DEFAULT NULL    COMMENT "Nombre del ahorro.",
+    sav_amount        DOUBLE          NULL DEFAULT 0       COMMENT "Importe de ahorro.",
+    sav_observation   TEXT            NULL DEFAULT NULL    COMMENT "Opcional, observaciones del ahorro.",
+    sav_file          VARCHAR(150)    NULL DEFAULT NULL    COMMENT "Opcional, carga de archivo.",
+    sav_status        CHAR(10)        NULL DEFAULT NULL    COMMENT "Estatus actual de ahorro: [activo | inactivo].",
+    sav_created_at    TIMESTAMP       NULL DEFAULT NOW()   COMMENT "Información de auditoría.",
+    sav_updated_at    TIMESTAMP       NULL DEFAULT NOW()   COMMENT "Información de auditoría.",
+    sav_deleted_at    TIMESTAMP       NULL DEFAULT NULL    COMMENT "Información de auditoría.",
+    CONSTRAINT        pkSaving        PRIMARY KEY(sav_id)
+    CONSTRAINT        ukSaving        UNIQUE(sav_name)
+) COMMENT "Administración de ahorro.";
+
+DROP TABLE IF EXISTS debts;
+CREATE TABLE IF NOT EXISTS debts
+(
+    deb_id            INT         NOT NULL AUTO_INCREMENT  COMMENT "Identificador de deuda.",
+    deb_usr_id        INT             NULL DEFAULT 1       COMMENT "Clave foráneo de tabla users.",
+    deb_name          VARCHAR(65)     NULL DEFAULT NULL    COMMENT "Nombre de la deuda.",
+    deb_amount        DOUBLE          NULL DEFAULT 0       COMMENT "Importe de deuda.",
+    deb_observation   TEXT            NULL DEFAULT NULL    COMMENT "Opcional, observaciones de la deuda.",
+    deb_file          VARCHAR(150)    NULL DEFAULT NULL    COMMENT "Opcional, carga de archivo.",
+    deb_status        CHAR(10)        NULL DEFAULT NULL    COMMENT "Estatus actual de la deuda: [activo | inactivo].",
+    deb_created_at    TIMESTAMP       NULL DEFAULT NOW()   COMMENT "Información de auditoría.",
+    deb_updated_at    TIMESTAMP       NULL DEFAULT NOW()   COMMENT "Información de auditoría.",
+    deb_deleted_at    TIMESTAMP       NULL DEFAULT NULL    COMMENT "Información de auditoría.",
+    CONSTRAINT        pkDebt          PRIMARY KEY(deb_id)
+    CONSTRAINT        ukDebt          PRIMARY KEY(deb_name)
+) COMMENT "Administración de deuda.";
+
+
+
+
+
 
 DROP TABLE IF EXISTS transactions;
 CREATE TABLE IF NOT EXISTS transactions
@@ -88,18 +127,20 @@ CREATE TABLE IF NOT EXISTS transactions
     tra_cat_id       INT               NULL DEFAULT 1      COMMENT "Clave foráneo de tabla categories.",
     tra_acc_id_from  INT               NULL DEFAULT 1      COMMENT "Clave foráneo de tabla accounts, para cuenta origen.",
     tra_acc_id_to    INT               NULL DEFAULT 1      COMMENT "Clave foráneo de tabla accounts, para cuenta destino.",
+    tra_sav_id       INT               NULL DEFAULT 1      COMMENT "Clave foráneo de tabla savings.",
+    tra_deb_id       INT               NULL DEFAULT 1      COMMENT "Clave foráneo de tabla debts.",
     tra_amount       DOUBLE            NULL DEFAULT NULL   COMMENT "Importe de transacción.",
     tra_type         CHAR(25)          NULL DEFAULT NULL   COMMENT "Tipo de transacción: [ingreso | egreso].",
     tra_observation  TEXT              NULL DEFAULT NULL   COMMENT "Opcional, observaciones de la transacción.",
     tra_file         VARCHAR(150)      NULL DEFAULT NULL   COMMENT "Opcional, carga de archivo.",
-    tra_created_at   DATETIME          NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
-    tra_updated_at   DATETIME          NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
+    tra_created_at   TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
+    tra_updated_at   TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
     CONSTRAINT       pkTransaction            PRIMARY KEY(tra_id),
     CONSTRAINT       fkTransactionUser        FOREIGN KEY(tra_usr_id)      REFERENCES users(usr_id),
     CONSTRAINT       fkTransactionCategory    FOREIGN KEY(tra_cat_id)      REFERENCES categories(cta_id),
     CONSTRAINT       fkTransactionAccountFrom FOREIGN KEY(tra_acc_id_from) REFERENCES accounts(acc_id),
     CONSTRAINT       fkTransactionAccountTo   FOREIGN KEY(tra_acc_id_to)   REFERENCES accounts(acc_id)
-) COMMENT "Administración de operaciones de ingreso y egresos";
+) COMMENT "Administración de operaciones de ingresos y egresos";
 
 DROP TABLE IF EXISTS details_transactions;
 CREATE TABLE IF NOT EXISTS details_transactions
@@ -109,11 +150,13 @@ CREATE TABLE IF NOT EXISTS details_transactions
     dtt_cat_id       INT               NULL DEFAULT 1      COMMENT "Clave foráneo de tabla categories.",
     dtt_acc_id_from  INT               NULL DEFAULT 1      COMMENT "Clave foráneo de tabla accounts, para cuenta origen.",
     dtt_acc_id_to    INT               NULL DEFAULT 1      COMMENT "Clave foráneo de tabla accounts, para cuenta destino.",
+    dtt_sav_id       INT               NULL DEFAULT 1      COMMENT "Clave foráneo de tabla savings.",
+    dtt_deb_id       INT               NULL DEFAULT 1      COMMENT "Clave foráneo de tabla debts.",
     dtt_amount       DOUBLE            NULL DEFAULT NULL   COMMENT "Importe de transacción.",
     dtt_type         CHAR(25)          NULL DEFAULT NULL   COMMENT "Tipo de transacción: [ingreso | egreso].",
     dtt_observation  TEXT              NULL DEFAULT NULL   COMMENT "Opcional, observaciones de la transacción.",
     dtt_file         VARCHAR(150)      NULL DEFAULT NULL   COMMENT "Opcional, carga de archivo.",
-    dtt_created_at   DATETIME          NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
-    dtt_updated_at   DATETIME          NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
+    dtt_created_at   TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
+    dtt_updated_at   TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Información de auditoria.",
     CONSTRAINT       pkDetailTransaction    PRIMARY KEY(dtt_id)
-) COMMENT "Administración de operaciones de ingreso y egresos";
+) COMMENT "Historial de ingresos y egresos";
