@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS ingresses
 (
     iss_id           INT           NOT NULL AUTO_INCREMENT COMMENT "Identificador único de la operación de ingreso.",
     iss_usr_id       INT               NULL DEFAULT 1      COMMENT "Identificador del usuario.",
-    iss_cat_id       INT               NULL DEFAULT 1      COMMENT "Identificador de la categoría.",
+    iss_cta_id       INT               NULL DEFAULT 1      COMMENT "Identificador de la categoría.",
     iss_sav_id       INT               NULL DEFAULT 1      COMMENT "Identificador de la cuenta de ahorro.",
     iss_deb_id       INT               NULL DEFAULT 1      COMMENT "Identificador de la deuda.",
     iss_acc_id       INT               NULL DEFAULT 1      COMMENT "Identificador de la cuenta.",
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS ingresses
     iss_updated_at   TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Datos de auditoria, fecha de actualización del registro.",
     CONSTRAINT       pkIngress         PRIMARY KEY(iss_id),
     CONSTRAINT       fkIngressUser     FOREIGN KEY(iss_usr_id) REFERENCES users(usr_id),
-    CONSTRAINT       fkIngressCategory FOREIGN KEY(iss_cat_id) REFERENCES categories(cta_id),
+    CONSTRAINT       fkIngressCategory FOREIGN KEY(iss_cta_id) REFERENCES categories(cta_id),
     CONSTRAINT       fkIngressSaving   FOREIGN KEY(iss_sav_id) REFERENCES savings(sav_id),
     CONSTRAINT       fkIngressDebt     FOREIGN KEY(iss_deb_id) REFERENCES debts(deb_id),
     CONSTRAINT       fkIngressAccount  FOREIGN KEY(iss_acc_id) REFERENCES accounts(acc_id)
@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS egresses
 (
     ess_id           INT           NOT NULL AUTO_INCREMENT COMMENT "Identificador único de la operación de egreso.",
     ess_usr_id       INT               NULL DEFAULT 1      COMMENT "Identificador del usuario.",
-    ess_cat_id       INT               NULL DEFAULT 1      COMMENT "Identificador de la categoría.",
+    ess_cta_id       INT               NULL DEFAULT 1      COMMENT "Identificador de la categoría.",
     ess_sav_id       INT               NULL DEFAULT 1      COMMENT "Identificador de la cuenta de ahorro.",
     ess_deb_id       INT               NULL DEFAULT 1      COMMENT "Identificador de la deuda.",
     ess_acc_id       INT               NULL DEFAULT 1      COMMENT "Identificador de la cuenta.",
@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS egresses
     ess_updated_at   TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Datos de auditoria, fecha de actualización del registro.",
     CONSTRAINT       pkEgress          PRIMARY KEY(ess_id),
     CONSTRAINT       fkEgressUser      FOREIGN KEY(ess_usr_id) REFERENCES users(usr_id),
-    CONSTRAINT       fkEgressCategory  FOREIGN KEY(ess_cat_id) REFERENCES categories(cta_id),
+    CONSTRAINT       fkEgressCategory  FOREIGN KEY(ess_cta_id) REFERENCES categories(cta_id),
     CONSTRAINT       fkEgressSaving    FOREIGN KEY(ess_sav_id) REFERENCES savings(sav_id),
     CONSTRAINT       fkEgressDebt      FOREIGN KEY(ess_deb_id) REFERENCES debts(deb_id),
     CONSTRAINT       fkEgressAccount   FOREIGN KEY(ess_acc_id) REFERENCES accounts(acc_id)
