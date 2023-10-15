@@ -4309,8 +4309,7 @@
 							},
 							"name": "name",
 							"type": "VARCHAR",
-							"length": "65",
-							"unique": true
+							"length": "65"
 						},
 						{
 							"_type": "ERDColumn",

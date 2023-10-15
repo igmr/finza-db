@@ -116,7 +116,6 @@ CREATE TABLE IF NOT EXISTS accounts
     updated_at   TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Datos de auditoria, fecha de actualización del registro.",
     deleted_at   TIMESTAMP         NULL DEFAULT NULL   COMMENT "Datos de auditoria, fecha de baja del registro.",
     CONSTRAINT   pkAccount         PRIMARY KEY(id),
-    CONSTRAINT   ukAccount         UNIQUE(name),
     CONSTRAINT   fkAccountUser     FOREIGN KEY(usr_id) REFERENCES users(usr_id),
     CONSTRAINT   fkAccountBank     FOREIGN KEY(ban_id) REFERENCES banks(ban_id)
 ) COMMENT "Catalogo de cuentas bancarias.";
