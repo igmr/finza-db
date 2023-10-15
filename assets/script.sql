@@ -100,7 +100,6 @@ CREATE TABLE IF NOT EXISTS accounts
     usr_id       INT               NULL DEFAULT 1      COMMENT "Identificador del usuario.",
     ban_id       INT               NULL DEFAULT 1      COMMENT "Identificador del catalogo de bancos.",
     name         VARCHAR(65)       NULL DEFAULT NULL   COMMENT "Nombre corto de cuenta.",
-    amount       DOUBLE            NULL DEFAULT 0      COMMENT "Importe inicial de la cuenta.",
     observation  TEXT              NULL DEFAULT NULL   COMMENT "Opcional, observaciones de la cuenta.",
     file         VARCHAR(150)      NULL DEFAULT NULL   COMMENT "Opcional, nombre de archivo.",
     status       CHAR(20)          NULL DEFAULT NULL   COMMENT "Estatus actual de cuenta: [Activo | Inactivo].",
