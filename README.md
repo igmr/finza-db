@@ -17,11 +17,10 @@ CREATE TABLE IF NOT EXISTS users
     id          INT           NOT NULL AUTO_INCREMENT   COMMENT "Identificador único para la administración de los usuarios.",
     name        VARCHAR(255)      NULL DEFAULT 1        COMMENT "Nombre propio del usuario.",
     email       VARCHAR(255)      NULL DEFAULT NULL     COMMENT "Correo electrónico del usuario.",
-    username    VARCHAR(255)      NULL DEFAULT NULL     COMMENT "Nombre de usuario para el acceso al sistema.",
     password    VARCHAR(255)      NULL DEFAULT NULL     COMMENT "Contraseña de acceso del usuario.",
     observation TEXT              NULL DEFAULT NULL     COMMENT "Opcional, observaciones del usuario.",
     file        VARCHAR(150)      NULL DEFAULT NULL     COMMENT "Opcional, carga de archivo.",
-    status      CHAR(10)          NULL DEFAULT "Activo" COMMENT "Estatus actual de usuario: [Activo | Inactivo].",
+    status      CHAR(20)          NULL DEFAULT "Activo" COMMENT "Estatus actual de usuario: [Activo | Inactivo].",
     created_at  TIMESTAMP         NULL DEFAULT NOW()    COMMENT "Datos de auditoria, Fecha de alta del registro.",
     updated_at  TIMESTAMP         NULL DEFAULT NOW()    COMMENT "Datos de auditoria, Fecha de actualización del registro.",
     deleted_at  TIMESTAMP         NULL DEFAULT NULL     COMMENT "Datos de auditoria, Fecha de baja del registro.",
@@ -35,11 +34,10 @@ CREATE TABLE IF NOT EXISTS banks
     id           INT          NOT NULL  AUTO_INCREMENT   COMMENT "Identificador único para el catalogo de bancos.",
     usr_id       INT              NULL  DEFAULT 1        COMMENT "Identificador del usuario.",
     abbreviature CHAR(25)         NULL  DEFAULT NULL     COMMENT "Abreviatura del banco.",
-    name         VARCHAR(65)      NULL  DEFAULT NULL     COMMENT "Nombre completo de banco.",
-    description  VARCHAR(255)     NULL  DEFAULT NULL     COMMENT "Opcional, descripción general del banco",
+    name         VARCHAR(65)      NULL  DEFAULT NULL     COMMENT "Nombre del banco.",
     observation  TEXT             NULL  DEFAULT NULL     COMMENT "Opcional, observaciones generales del banco.",
-    file         VARCHAR(10)      NULL  DEFAULT NULL     COMMENT "Opcional, nombre del archivo.",
-    status       CHAR(10)         NULL  DEFAULT "Activo" COMMENT "Estatus actual del banco [Activo | Inactivo]",
+    file         VARCHAR(150)     NULL  DEFAULT NULL     COMMENT "Opcional, nombre del archivo.",
+    status       CHAR(20)         NULL  DEFAULT "Activo" COMMENT "Estatus actual del banco [Activo | Inactivo]",
     created_at   TIMESTAMP        NULL  DEFAULT now()    COMMENT "Datos de auditoria, fecha de alta del registro",
     updated_at   TIMESTAMP        NULL  DEFAULT now()    COMMENT "Datos de auditoria, fecha de actualización del registro",
     deleted_at   TIMESTAMP        NULL  DEFAULT now()    COMMENT "Datos de auditoria, fecha de baja del registro",
@@ -54,17 +52,17 @@ CREATE TABLE IF NOT EXISTS categories
     id           INT            NOT NULL AUTO_INCREMENT   COMMENT "Identificador único para el catalogo de categorías.",
     usr_id       INT                NULL DEFAULT 1        COMMENT "Identificador del usuario.",
     code         CHAR(10)           NULL DEFAULT NULL     COMMENT "Opcional, código de la categoría.",
-    description  VARCHAR(255)       NULL DEFAULT NULL     COMMENT "Descripción de la categoría.",
+    name         VARCHAR(255)       NULL DEFAULT NULL     COMMENT "Descripción de la categoría.",
     icon         VARCHAR(15)        NULL DEFAULT NULL     COMMENT "Opcional, icono de categoría.",
     type         VARCHAR(15)        NULL DEFAULT NULL     COMMENT "Tipo de categoría: [ingreso | egreso].",
     observation  TEXT               NULL DEFAULT NULL     COMMENT "Opcional, observaciones de la categoría.",
     file         VARCHAR(150)       NULL DEFAULT NULL     COMMENT "Opcional, nombre del archivo.",
-    status       CHAR(10)           NULL DEFAULT "Activo" COMMENT "Estatus actual de categoría: [Activo | Inactivo].",
+    status       CHAR(20)           NULL DEFAULT "Activo" COMMENT "Estatus actual de categoría: [Activo | Inactivo].",
     created_at   TIMESTAMP          NULL DEFAULT NOW()    COMMENT "Datos de auditoria, fecha de alta del registro.",
     updated_at   TIMESTAMP          NULL DEFAULT NOW()    COMMENT "Datos de auditoria, fecha de actualización del registro.",
     deleted_at   TIMESTAMP          NULL DEFAULT NULL     COMMENT "Datos de auditoria, fecha de baja del registro.",
     CONSTRAINT   pkCategory         PRIMARY KEY(id),
-    CONSTRAINT   ukCategory         UNIQUE(description),
+    CONSTRAINT   ukCategory         UNIQUE(name),
     CONSTRAINT   fkCategoryUser     FOREIGN KEY(usr_id) REFERENCES users(usr_id)
 ) COMMENT "Lista de categorías para clasificar los tipos";
 
@@ -77,12 +75,13 @@ CREATE TABLE IF NOT EXISTS debts
     amount        DOUBLE          NULL DEFAULT 0       COMMENT "Importe total de la deuda.",
     observation   TEXT            NULL DEFAULT NULL    COMMENT "Opcional, observaciones de la deuda.",
     file          VARCHAR(150)    NULL DEFAULT NULL    COMMENT "Opcional, nombre del archivo.",
-    status        CHAR(10)        NULL DEFAULT NULL    COMMENT "Estatus actual de la deuda: [En curso | Completada | Cancelado ].",
+    status        CHAR(20)        NULL DEFAULT NULL    COMMENT "Estatus actual de la deuda: [En curso | Completada | Cancelado ].",
     created_at    TIMESTAMP       NULL DEFAULT NOW()   COMMENT "Datos de auditoria, fecha de alta del registro.",
     updated_at    TIMESTAMP       NULL DEFAULT NOW()   COMMENT "Datos de auditoria, fecha de actualización del registro.",
     deleted_at    TIMESTAMP       NULL DEFAULT NULL    COMMENT "Datos de auditoria, fecha de baja del registro.",
     CONSTRAINT    pkDebt          PRIMARY KEY(id),
-    CONSTRAINT    ukDebt          UNIQUE(name)
+    CONSTRAINT    ukDebt          UNIQUE(name),
+    CONSTRAINT    fkDebtUser      FOREIGN KEY(usr_id) REFERENCES users(usr_id)
 ) COMMENT "Administración de deudas.";
 
 DROP TABLE IF EXISTS savings;
@@ -94,12 +93,13 @@ CREATE TABLE IF NOT EXISTS savings
     amount        DOUBLE          NULL DEFAULT 0       COMMENT "Importe total para el ahorro.",
     observation   TEXT            NULL DEFAULT NULL    COMMENT "Opcional, observaciones del ahorro.",
     file          VARCHAR(150)    NULL DEFAULT NULL    COMMENT "Opcional, nombre del archivo.",
-    status        CHAR(10)        NULL DEFAULT NULL    COMMENT "Estatus actual del ahorro: [Activo | Inactivo].",
+    status        CHAR(20)        NULL DEFAULT NULL    COMMENT "Estatus actual del ahorro: [Activo | Inactivo].",
     created_at    TIMESTAMP       NULL DEFAULT NOW()   COMMENT "Datos de auditoria, fecha de alta del registro.",
     updated_at    TIMESTAMP       NULL DEFAULT NOW()   COMMENT "Datos de auditoria, fecha de actualización del registro.",
     deleted_at    TIMESTAMP       NULL DEFAULT NULL    COMMENT "Datos de auditoria, fecha de bajo del registro.",
     CONSTRAINT    pkSaving        PRIMARY KEY(id),
-    CONSTRAINT    ukSaving        UNIQUE(name)
+    CONSTRAINT    ukSaving        UNIQUE(name),
+    CONSTRAINT    fkSavingUser    FOREIGN KEY(usr_id) REFERENCES users(usr_id)
 ) COMMENT "Administración de ahorros.";
 
 DROP TABLE IF EXISTS accounts;
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS accounts
     amount       DOUBLE            NULL DEFAULT 0      COMMENT "Importe inicial de la cuenta.",
     observation  TEXT              NULL DEFAULT NULL   COMMENT "Opcional, observaciones de la cuenta.",
     file         VARCHAR(150)      NULL DEFAULT NULL   COMMENT "Opcional, nombre de archivo.",
-    status       CHAR(10)          NULL DEFAULT NULL   COMMENT "Estatus actual de cuenta: [Activo | Inactivo].",
+    status       CHAR(20)          NULL DEFAULT NULL   COMMENT "Estatus actual de cuenta: [Activo | Inactivo].",
     created_at   TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Datos de auditoria, fecha de alta del registro.",
     updated_at   TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Datos de auditoria, fecha de actualización del registro.",
     deleted_at   TIMESTAMP         NULL DEFAULT NULL   COMMENT "Datos de auditoria, fecha de baja del registro.",
@@ -128,17 +128,17 @@ CREATE TABLE IF NOT EXISTS budgets
     id           INT           NOT NULL AUTO_INCREMENT COMMENT "Identificador único del presupuesto.",
     usr_id       INT               NULL DEFAULT 1      COMMENT "Identificador del usuario.",
     acc_id       INT               NULL DEFAULT NULL   COMMENT "Opcional, presupuesto basado por cuentas.",
-    description  VARCHAR(65)       NULL DEFAULT NULL   COMMENT "Descripción del presupuesto.",
+    name         VARCHAR(65)       NULL DEFAULT NULL   COMMENT "Descripción del presupuesto.",
     amount       DOUBLE            NULL DEFAULT NULL   COMMENT "Importe total del presupuesto.",
     period       CHAR(15)          NULL DEFAULT NULL   COMMENT "Tipo de presupuesto: [diario|quincenal|mensual|anual].",
     observation  TEXT              NULL DEFAULT NULL   COMMENT "Opcional, observaciones del presupuesto.",
     file         VARCHAR(150)      NULL DEFAULT NULL   COMMENT "Opcional, nombre de archivo.",
-    status       CHAR(10)          NULL DEFAULT NULL   COMMENT "Estatus actual de presupuesto: [Activo | Inactivo].",
+    status       CHAR(20)          NULL DEFAULT NULL   COMMENT "Estatus actual de presupuesto: [Activo | Inactivo].",
     created_at   TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Datos de auditoria, fecha de alta del registro.",
     updated_at   TIMESTAMP         NULL DEFAULT NOW()  COMMENT "Datos de auditoria, fecha de actualización del registro.",
     deleted_at   TIMESTAMP         NULL DEFAULT NULL   COMMENT "Datos de auditoria, fecha de baja del registro.",
     CONSTRAINT   pkBudget          PRIMARY KEY(id),
-    CONSTRAINT   ukBudget          UNIQUE(description),
+    CONSTRAINT   ukBudget          UNIQUE(name),
     CONSTRAINT   fkBudgetUser      FOREIGN KEY(usr_id) REFERENCES users(usr_id),
     CONSTRAINT   fkBudgetAccount   FOREIGN KEY(acc_id) REFERENCES accounts(acc_id)
 ) COMMENT "Administración de presupuestos.";
