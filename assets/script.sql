@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS debts
 (
     id            INT         NOT NULL AUTO_INCREMENT  COMMENT "Identificador único para la administración de mis deudas.",
     usr_id        INT             NULL DEFAULT 1       COMMENT "Identificador del usuario.",
-    cat_id        INT             NULL DEFAULT 1       COMMENT "Identificador de categoria.",
+    cat_id        INT             NULL DEFAULT NULL    COMMENT "Identificador de categoria.",
     name          VARCHAR(65)     NULL DEFAULT NULL    COMMENT "Nombre de la deuda.",
     amount        DOUBLE          NULL DEFAULT 0       COMMENT "Importe total de la deuda.",
     period        CHAR(15)        NULL DEFAULT NULL    COMMENT "Tipo de deuda: [diario|quincenal|mensual|anual].",
@@ -76,7 +76,8 @@ CREATE TABLE IF NOT EXISTS debts
     deleted_at    TIMESTAMP       NULL DEFAULT NULL    COMMENT "Datos de auditoria, fecha de baja del registro.",
     CONSTRAINT    pkDebt          PRIMARY KEY(id),
     CONSTRAINT    ukDebt          UNIQUE(name),
-    CONSTRAINT    fkDebtUser      FOREIGN KEY(usr_id) REFERENCES users(usr_id)
+    CONSTRAINT    fkDebtUser      FOREIGN KEY(usr_id) REFERENCES users(usr_id),
+    CONSTRAINT    fkDebtCategory  FOREIGN KEY(cat_id) REFERENCES categories(cat_id)
 ) COMMENT "Administración de deudas.";
 
 DROP TABLE IF EXISTS savings;
