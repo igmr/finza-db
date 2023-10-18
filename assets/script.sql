@@ -62,8 +62,12 @@ CREATE TABLE IF NOT EXISTS debts
 (
     id            INT         NOT NULL AUTO_INCREMENT  COMMENT "Identificador único para la administración de mis deudas.",
     usr_id        INT             NULL DEFAULT 1       COMMENT "Identificador del usuario.",
+    cat_id        INT             NULL DEFAULT 1       COMMENT "Identificador de categoria.",
     name          VARCHAR(65)     NULL DEFAULT NULL    COMMENT "Nombre de la deuda.",
     amount        DOUBLE          NULL DEFAULT 0       COMMENT "Importe total de la deuda.",
+    period        CHAR(15)        NULL DEFAULT NULL    COMMENT "Tipo de deuda: [diario|quincenal|mensual|anual].",
+    day           INT             NULL DEFAULT NULL    COMMENT "Dia de pago de deuda para tipo de perido Mensual",
+    date_at       DATETIME        NULL DEFAULT NULL    COMMENT "Fecha de pago de deuda para tipo de perido Anual",
     observation   TEXT            NULL DEFAULT NULL    COMMENT "Opcional, observaciones de la deuda.",
     file          VARCHAR(150)    NULL DEFAULT NULL    COMMENT "Opcional, nombre del archivo.",
     status        CHAR(20)        NULL DEFAULT NULL    COMMENT "Estatus actual de la deuda: [En curso | Completada | Cancelado ].",
