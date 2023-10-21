@@ -56,7 +56,6 @@ CREATE TABLE IF NOT EXISTS categories
     code         CHAR(10)           NULL DEFAULT NULL     COMMENT "Opcional, código de la categoría.",
     name         VARCHAR(255)       NULL DEFAULT NULL     COMMENT "Descripción de la categoría.",
     icon         VARCHAR(15)        NULL DEFAULT NULL     COMMENT "Opcional, icono de categoría.",
-    type         VARCHAR(15)        NULL DEFAULT NULL     COMMENT "Tipo de categoría: [ingreso | egreso].",
     observation  TEXT               NULL DEFAULT NULL     COMMENT "Opcional, observaciones de la categoría.",
     file         VARCHAR(150)       NULL DEFAULT NULL     COMMENT "Opcional, nombre del archivo.",
     status       CHAR(20)           NULL DEFAULT "Activo" COMMENT "Estatus actual de categoría: [Activo | Inactivo].",
@@ -68,7 +67,28 @@ CREATE TABLE IF NOT EXISTS categories
     CONSTRAINT   fkCategoryUser     FOREIGN KEY(usr_id) REFERENCES users(id)
         ON DELETE SET NULL
         ON UPDATE SET NULL
-) COMMENT "Lista de categorías para clasificar los tipos";
+) COMMENT "Parametros para clasificar las operaciones de tipo egreso.";
+
+DROP TABLE IF EXISTS classifications;
+CREATE TABLE IF NOT EXISTS classifications
+(
+    id           INT            NOT NULL AUTO_INCREMENT   COMMENT "Identificador único para el catalogo de categorías.",
+    usr_id       INT                NULL DEFAULT NULL     COMMENT "Identificador del usuario.",
+    code         CHAR(10)           NULL DEFAULT NULL     COMMENT "Opcional, código de la categoría.",
+    name         VARCHAR(255)       NULL DEFAULT NULL     COMMENT "Descripción de la categoría.",
+    icon         VARCHAR(15)        NULL DEFAULT NULL     COMMENT "Opcional, icono de categoría.",
+    observation  TEXT               NULL DEFAULT NULL     COMMENT "Opcional, observaciones de la categoría.",
+    file         VARCHAR(150)       NULL DEFAULT NULL     COMMENT "Opcional, nombre del archivo.",
+    status       CHAR(20)           NULL DEFAULT "Activo" COMMENT "Estatus actual de categoría: [Activo | Inactivo].",
+    created_at   TIMESTAMP          NULL DEFAULT NOW()    COMMENT "Datos de auditoria, fecha de alta del registro.",
+    updated_at   TIMESTAMP          NULL DEFAULT NOW()    COMMENT "Datos de auditoria, fecha de actualización del registro.",
+    deleted_at   TIMESTAMP          NULL DEFAULT NULL     COMMENT "Datos de auditoria, fecha de baja del registro.",
+    CONSTRAINT   pkCategory         PRIMARY KEY(id),
+    CONSTRAINT   ukCategory         UNIQUE(name),
+    CONSTRAINT   fkCategoryUser     FOREIGN KEY(usr_id) REFERENCES users(id)
+        ON DELETE SET NULL
+        ON UPDATE SET NULL
+) COMMENT "Parametros para clasificar las operaciones de tipo ingreso.";
 
 DROP TABLE IF EXISTS debts;
 CREATE TABLE IF NOT EXISTS debts
@@ -200,7 +220,7 @@ CREATE TABLE IF NOT EXISTS egresses
 (
     id           INT           NOT NULL AUTO_INCREMENT COMMENT "Identificador único de la operación de egreso.",
     usr_id       INT               NULL DEFAULT 1      COMMENT "Identificador del usuario.",
-    cat_id       INT               NULL DEFAULT 1      COMMENT "Identificador de la categoría.",
+    cls_id       INT               NULL DEFAULT 1      COMMENT "Identificador de la clasificación.",
     sav_id       INT               NULL DEFAULT 1      COMMENT "Identificador de la cuenta de ahorro.",
     deb_id       INT               NULL DEFAULT 1      COMMENT "Identificador de la deuda.",
     acc_id       INT               NULL DEFAULT 1      COMMENT "Identificador de la cuenta.",
@@ -215,7 +235,7 @@ CREATE TABLE IF NOT EXISTS egresses
     CONSTRAINT   fkEgressUser      FOREIGN KEY(usr_id) REFERENCES users(id)
         ON DELETE SET NULL
         ON UPDATE SET NULL,
-    CONSTRAINT   fkEgressCategory  FOREIGN KEY(cat_id) REFERENCES categories(id)
+    CONSTRAINT   fkEgressCategory  FOREIGN KEY(cls_id) REFERENCES classifications(id)
         ON DELETE SET NULL
         ON UPDATE SET NULL,
     CONSTRAINT   fkEgressSaving    FOREIGN KEY(sav_id) REFERENCES savings(id)
