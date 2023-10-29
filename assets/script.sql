@@ -81,30 +81,6 @@ CREATE TABLE IF NOT EXISTS classifications
         ON UPDATE SET NULL
 ) COMMENT "Parametros para clasificar las operaciones de tipo ingreso.";
 
-DROP TABLE IF EXISTS debts;
-CREATE TABLE IF NOT EXISTS debts
-(
-    id            INT         NOT NULL AUTO_INCREMENT   COMMENT "Identificador único para la administración de mis deudas.",
-    usr_id        INT             NULL DEFAULT 1        COMMENT "Identificador del usuario.",
-    cat_id        INT             NULL DEFAULT 1        COMMENT "Identificador de categoria.",
-    name          VARCHAR(65)     NULL DEFAULT NULL     COMMENT "Nombre de la deuda.",
-    amount        DOUBLE          NULL DEFAULT 0        COMMENT "Importe total de la deuda.",
-    period        CHAR(15)        NULL DEFAULT NULL     COMMENT "Tipo de presupuesto: [Diario|Semanal|Quincenal|Mensual|Anual].",
-    day           INT             NULL DEFAULT NULL     COMMENT "Dia de pago de deuda para tipo de perido Mensual",
-    date_at       DATETIME        NULL DEFAULT NULL     COMMENT "Fecha de pago de deuda para tipo de perido Anual",
-    observation   TEXT            NULL DEFAULT NULL     COMMENT "Opcional, observaciones de la deuda.",
-    file          VARCHAR(150)    NULL DEFAULT NULL     COMMENT "Opcional, nombre del archivo.",
-    status        CHAR(20)        NULL DEFAULT "Activo" COMMENT "Estatus actual de la deuda: [En curso | Completada | Cancelado ].",
-    created_at    TIMESTAMP       NULL DEFAULT NOW()    COMMENT "Datos de auditoria, fecha de alta del registro.",
-    updated_at    TIMESTAMP       NULL DEFAULT NOW()    COMMENT "Datos de auditoria, fecha de actualización del registro.",
-    deleted_at    TIMESTAMP       NULL DEFAULT NULL     COMMENT "Datos de auditoria, fecha de baja del registro.",
-    CONSTRAINT    pkDebt          PRIMARY KEY(id),
-    CONSTRAINT    ukDebt          UNIQUE(name),
-    CONSTRAINT    fkDebtUser      FOREIGN KEY(usr_id) REFERENCES users(id)
-        ON DELETE SET NULL
-        ON UPDATE SET NULL
-) COMMENT "Administración de deudas.";
-
 DROP TABLE IF EXISTS savings;
 CREATE TABLE IF NOT EXISTS savings
 (
@@ -125,6 +101,33 @@ CREATE TABLE IF NOT EXISTS savings
         ON DELETE SET NULL
         ON UPDATE SET NULL
 ) COMMENT "Administración de ahorros.";
+
+DROP TABLE IF EXISTS debts;
+CREATE TABLE IF NOT EXISTS debts
+(
+    id            INT         NOT NULL AUTO_INCREMENT   COMMENT "Identificador único para la administración de mis deudas.",
+    usr_id        INT             NULL DEFAULT 1        COMMENT "Identificador del usuario.",
+    cat_id        INT             NULL DEFAULT 1        COMMENT "Identificador de categoria.",
+    name          VARCHAR(65)     NULL DEFAULT NULL     COMMENT "Nombre de la deuda.",
+    amount        DOUBLE          NULL DEFAULT 0        COMMENT "Importe total de la deuda.",
+    period        CHAR(15)        NULL DEFAULT NULL     COMMENT "Tipo de deuda: [Diario|Semanal|Quincenal|Mensual|Anual].",
+    day           INT             NULL DEFAULT NULL     COMMENT "Dia de pago de deuda para tipo de periodo Mensual",
+    date_at       DATETIME        NULL DEFAULT NULL     COMMENT "Fecha de pago de deuda para tipo de periodo Anual",
+    observation   TEXT            NULL DEFAULT NULL     COMMENT "Opcional, observaciones de la deuda.",
+    file          VARCHAR(150)    NULL DEFAULT NULL     COMMENT "Opcional, nombre del archivo.",
+    status        CHAR(20)        NULL DEFAULT "Activo" COMMENT "Estatus actual de la deuda: [En curso | Completada | Cancelado ].",
+    created_at    TIMESTAMP       NULL DEFAULT NOW()    COMMENT "Datos de auditoria, fecha de alta del registro.",
+    updated_at    TIMESTAMP       NULL DEFAULT NOW()    COMMENT "Datos de auditoria, fecha de actualización del registro.",
+    deleted_at    TIMESTAMP       NULL DEFAULT NULL     COMMENT "Datos de auditoria, fecha de baja del registro.",
+    CONSTRAINT    pkDebt          PRIMARY KEY(id),
+    CONSTRAINT    ukDebt          UNIQUE(name),
+    CONSTRAINT    fkDebtUser      FOREIGN KEY(usr_id) REFERENCES users(id)
+        ON DELETE SET NULL
+        ON UPDATE SET NULL,
+    CONSTRAINT    fkDebtCategory  FOREIGN KEY(cat_id) REFERENCES categories(id)
+        ON DELETE SET NULL
+        ON UPDATE SET NULL
+) COMMENT "Administración de deudas.";
 
 DROP TABLE IF EXISTS accounts;
 CREATE TABLE IF NOT EXISTS accounts
@@ -153,7 +156,7 @@ CREATE TABLE IF NOT EXISTS budgets
 (
     id           INT           NOT NULL AUTO_INCREMENT   COMMENT "Identificador único del presupuesto.",
     usr_id       INT               NULL DEFAULT 1        COMMENT "Identificador del usuario.",
-    acc_id       INT               NULL DEFAULT NULL     COMMENT "Opcional, presupuesto basado por cuentas.",
+    cat_id       INT               NULL DEFAULT NULL     COMMENT "Presupuesto clasificado por categoría.",
     name         VARCHAR(65)       NULL DEFAULT NULL     COMMENT "Descripción del presupuesto.",
     amount       DOUBLE            NULL DEFAULT NULL     COMMENT "Importe total del presupuesto.",
     period       CHAR(15)          NULL DEFAULT NULL     COMMENT "Tipo de presupuesto: [diario|quincenal|mensual|anual].",
@@ -168,7 +171,7 @@ CREATE TABLE IF NOT EXISTS budgets
     CONSTRAINT   fkBudgetUser      FOREIGN KEY(usr_id) REFERENCES users(id)
         ON DELETE SET NULL
         ON UPDATE SET NULL,
-    CONSTRAINT   fkBudgetAccount   FOREIGN KEY(acc_id) REFERENCES accounts(id)
+    CONSTRAINT   fkBudgetCategory  FOREIGN KEY(cat_id) REFERENCES categories(id)
         ON DELETE SET NULL
         ON UPDATE SET NULL
 ) COMMENT "Administración de presupuestos.";
