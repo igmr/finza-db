@@ -2,7 +2,7 @@
 
 ## Modelo relacional
 
-![Modelo relacional](./assets/model-er.png)
+![Modelo relacional](./assets/Model-ER.png)
 
 ## Script SQL
 
