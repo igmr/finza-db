@@ -215,12 +215,12 @@ CREATE TABLE ingresses (
     created_at  TIMESTAMP                                   NULL DEFAULT NULL,
     updated_at  TIMESTAMP                                   NULL DEFAULT NULL,
     deleted_at  TIMESTAMP                                   NULL DEFAULT NULL,
-    CONSTRAINT  pkIngress         PRIMARY KEY (id),
-    CONSTRAINT  fkAccountIngress  FOREIGN KEY (acc_id) REFERENCES accounts (id)   ON DELETE SET NULL,
-    CONSTRAINT  fkCategoryIngress FOREIGN KEY (cta_id) REFERENCES categories (id) ON DELETE SET NULL,
-    CONSTRAINT  fkDebtIngress     FOREIGN KEY (deb_id) REFERENCES debts (id)      ON DELETE SET NULL,
-    CONSTRAINT  fkSavingIngress   FOREIGN KEY (sav_id) REFERENCES savings (id)    ON DELETE SET NULL,
-    CONSTRAINT  fkUserIngress     FOREIGN KEY (usr_id) REFERENCES users (id)      ON DELETE SET NULL
+    CONSTRAINT  pkIngress               PRIMARY KEY (id),
+    CONSTRAINT  fkAccountIngress        FOREIGN KEY (acc_id) REFERENCES accounts (id)        ON DELETE SET NULL,
+    CONSTRAINT  fkClassificationIngress FOREIGN KEY (cls_id) REFERENCES classifications (id) ON DELETE SET NULL,
+    CONSTRAINT  fkDebtIngress           FOREIGN KEY (deb_id) REFERENCES debts (id)           ON DELETE SET NULL,
+    CONSTRAINT  fkSavingIngress         FOREIGN KEY (sav_id) REFERENCES savings (id)         ON DELETE SET NULL,
+    CONSTRAINT  fkUserIngress           FOREIGN KEY (usr_id) REFERENCES users (id)           ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS egresses;
@@ -241,10 +241,10 @@ CREATE TABLE egresses (
     created_at  TIMESTAMP                                   NULL DEFAULT NULL,
     updated_at  TIMESTAMP                                   NULL DEFAULT NULL,
     deleted_at  TIMESTAMP                                   NULL DEFAULT NULL,
-    CONSTRAINT  pkEgress               PRIMARY KEY (id),
-    CONSTRAINT  fkAccountEgress        FOREIGN KEY (acc_id) REFERENCES accounts (id)        ON DELETE SET NULL,
-    CONSTRAINT  fkClassificationEgress FOREIGN KEY (cls_id) REFERENCES classifications (id) ON DELETE SET NULL,
-    CONSTRAINT  fkDebtEgress           FOREIGN KEY (deb_id) REFERENCES debts (id)           ON DELETE SET NULL,
-    CONSTRAINT  fkSavingEgress         FOREIGN KEY (sav_id) REFERENCES savings (id)         ON DELETE SET NULL,
-    CONSTRAINT  fkUserEgress           FOREIGN KEY (usr_id) REFERENCES users (id)           ON DELETE SET NULL
+    CONSTRAINT  pkEgress         PRIMARY KEY (id),
+    CONSTRAINT  fkAccountEgress  FOREIGN KEY (acc_id) REFERENCES accounts (id)   ON DELETE SET NULL,
+    CONSTRAINT  fkCategoryEgress FOREIGN KEY (cat_id) REFERENCES categories (id) ON DELETE SET NULL,
+    CONSTRAINT  fkDebtEgress     FOREIGN KEY (deb_id) REFERENCES debts (id)      ON DELETE SET NULL,
+    CONSTRAINT  fkSavingEgress   FOREIGN KEY (sav_id) REFERENCES savings (id)    ON DELETE SET NULL,
+    CONSTRAINT  fkUserEgress     FOREIGN KEY (usr_id) REFERENCES users (id)      ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
