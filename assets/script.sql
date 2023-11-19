@@ -201,7 +201,7 @@ DROP TABLE IF EXISTS ingresses;
 CREATE TABLE ingresses (
     id          BIGINT       UNSIGNED                   NOT NULL AUTO_INCREMENT,
     usr_id      BIGINT       UNSIGNED                            DEFAULT NULL,
-    cta_id      BIGINT       UNSIGNED                            DEFAULT NULL,
+    cls_id      BIGINT       UNSIGNED                            DEFAULT NULL,
     sav_id      BIGINT       UNSIGNED                            DEFAULT NULL,
     deb_id      BIGINT       UNSIGNED                            DEFAULT NULL,
     acc_id      BIGINT       UNSIGNED                            DEFAULT NULL,
@@ -227,7 +227,7 @@ DROP TABLE IF EXISTS egresses;
 CREATE TABLE egresses (
     id          BIGINT       UNSIGNED                   NOT NULL AUTO_INCREMENT,
     usr_id      BIGINT       UNSIGNED                            DEFAULT NULL,
-    cls_id      BIGINT       UNSIGNED                            DEFAULT NULL,
+    cat_id      BIGINT       UNSIGNED                            DEFAULT NULL,
     sav_id      BIGINT       UNSIGNED                            DEFAULT NULL,
     deb_id      BIGINT       UNSIGNED                            DEFAULT NULL,
     acc_id      BIGINT       UNSIGNED                            DEFAULT NULL,
