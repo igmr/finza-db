@@ -8,8 +8,8 @@ CREATE TABLE failed_jobs (
     uuid        VARCHAR(255)     COLLATE utf8mb4_unicode_ci NOT NULL,
     connection  TEXT             COLLATE utf8mb4_unicode_ci NOT NULL,
     queue       TEXT             COLLATE utf8mb4_unicode_ci NOT NULL,
-    payload     LOGTEXT          COLLATE utf8mb4_unicode_ci NOT NULL,
-    exception   LOGTEXT          COLLATE utf8mb4_unicode_ci NOT NULL,
+    payload     TEXT             COLLATE utf8mb4_unicode_ci NOT NULL,
+    exception   TEXT             COLLATE utf8mb4_unicode_ci NOT NULL,
     failed_at   TIMESTAMP                                   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT  pkFailedJob PRIMARY KEY (id),
     CONSTRAINT  ukFailedJob UNIQUE KEY  (uuid)
