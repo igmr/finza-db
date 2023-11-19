@@ -2,7 +2,7 @@
 USE dbFinance;
 
 INSERT INTO users(id, name, email, password, status, created_at)
-VALUES(001, 'demo', 'igmrivan@gmail.com', '$2y$10$5SFjm0x0JlQm4YIlki/5luRMnE5eiohMPQ8pmvSonX01r8kStQCAS', 'Activo', NOW());
+VALUES(001, 'demo', 'demo@demo.com', '$2y$10$5SFjm0x0JlQm4YIlki/5luRMnE5eiohMPQ8pmvSonX01r8kStQCAS', 'Activo', NOW()); -- gPassword#321
 
 INSERT INTO banks (id, usr_id, name, status, created_at) VALUES (001, 001, 'Efectivo'      , 'Activo', NOW());
 INSERT INTO banks (id, usr_id, name, status, created_at) VALUES (002, 001, 'Banco Azteca'  , 'Activo', NOW());
