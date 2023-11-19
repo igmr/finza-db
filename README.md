@@ -17,8 +17,8 @@ CREATE TABLE failed_jobs (
     uuid        VARCHAR(255)     COLLATE utf8mb4_unicode_ci NOT NULL,
     connection  TEXT             COLLATE utf8mb4_unicode_ci NOT NULL,
     queue       TEXT             COLLATE utf8mb4_unicode_ci NOT NULL,
-    payload     LOGTEXT          COLLATE utf8mb4_unicode_ci NOT NULL,
-    exception   LOGTEXT          COLLATE utf8mb4_unicode_ci NOT NULL,
+    payload     TEXT             COLLATE utf8mb4_unicode_ci NOT NULL,
+    exception   TEXT             COLLATE utf8mb4_unicode_ci NOT NULL,
     failed_at   TIMESTAMP                                   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT  pkFailedJob PRIMARY KEY (id),
     CONSTRAINT  ukFailedJob UNIQUE KEY  (uuid)
@@ -182,7 +182,6 @@ CREATE TABLE accounts (
     updated_at  TIMESTAMP                                   NULL DEFAULT NULL,
     deleted_at  TIMESTAMP                                   NULL DEFAULT NULL,
     CONSTRAINT  pkAccount     PRIMARY KEY (id),
-    CONSTRAINT  ukAccount     UNIQUE KEY  (name),
     CONSTRAINT  fkBankAccount FOREIGN KEY (ban_id) REFERENCES banks (id) ON DELETE SET NULL,
     CONSTRAINT  fkUserAccount FOREIGN KEY (usr_id) REFERENCES users (id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -211,7 +210,7 @@ DROP TABLE IF EXISTS ingresses;
 CREATE TABLE ingresses (
     id          BIGINT       UNSIGNED                   NOT NULL AUTO_INCREMENT,
     usr_id      BIGINT       UNSIGNED                            DEFAULT NULL,
-    cta_id      BIGINT       UNSIGNED                            DEFAULT NULL,
+    cls_id      BIGINT       UNSIGNED                            DEFAULT NULL,
     sav_id      BIGINT       UNSIGNED                            DEFAULT NULL,
     deb_id      BIGINT       UNSIGNED                            DEFAULT NULL,
     acc_id      BIGINT       UNSIGNED                            DEFAULT NULL,
@@ -237,7 +236,7 @@ DROP TABLE IF EXISTS egresses;
 CREATE TABLE egresses (
     id          BIGINT       UNSIGNED                   NOT NULL AUTO_INCREMENT,
     usr_id      BIGINT       UNSIGNED                            DEFAULT NULL,
-    cls_id      BIGINT       UNSIGNED                            DEFAULT NULL,
+    cat_id      BIGINT       UNSIGNED                            DEFAULT NULL,
     sav_id      BIGINT       UNSIGNED                            DEFAULT NULL,
     deb_id      BIGINT       UNSIGNED                            DEFAULT NULL,
     acc_id      BIGINT       UNSIGNED                            DEFAULT NULL,
