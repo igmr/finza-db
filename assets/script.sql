@@ -107,7 +107,7 @@ CREATE TABLE classifications (
     usr_id      BIGINT       UNSIGNED                            DEFAULT NULL,
     code        VARCHAR(10)  COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
     name        VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    icon        VARCHAR(15)  COLLATE utf8mb4_unicode_ci NOT NULL,
+    icon        VARCHAR(15)  COLLATE utf8mb4_unicode_ci     NULL DEFAULT NULL,
     file        VARCHAR(10)  COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
     observation TEXT         COLLATE utf8mb4_unicode_ci,
     status      VARCHAR(20)  COLLATE utf8mb4_unicode_ci          DEFAULT 'Activo',
