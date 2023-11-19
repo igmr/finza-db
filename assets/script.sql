@@ -173,7 +173,6 @@ CREATE TABLE accounts (
     updated_at  TIMESTAMP                                   NULL DEFAULT NULL,
     deleted_at  TIMESTAMP                                   NULL DEFAULT NULL,
     CONSTRAINT  pkAccount     PRIMARY KEY (id),
-    CONSTRAINT  ukAccount     UNIQUE KEY  (name),
     CONSTRAINT  fkBankAccount FOREIGN KEY (ban_id) REFERENCES banks (id) ON DELETE SET NULL,
     CONSTRAINT  fkUserAccount FOREIGN KEY (usr_id) REFERENCES users (id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
