@@ -1,5 +1,5 @@
 
-USE dbFinance;
+USE dbFinzaApp;
 
 INSERT INTO users(id, name, email, password, status, created_at)
 VALUES(001, 'demo', 'demo@demo.com', '$2y$10$5SFjm0x0JlQm4YIlki/5luRMnE5eiohMPQ8pmvSonX01r8kStQCAS', 'Activo', NOW()); -- gPassword#321
@@ -16,7 +16,9 @@ INSERT INTO accounts (id, usr_id, ban_id, name, status, created_at) VALUES (003,
 INSERT INTO accounts (id, usr_id, ban_id, name, status, created_at) VALUES (004, 001, 004, 'Principal', 'Activo', NOW());
 INSERT INTO accounts (id, usr_id, ban_id, name, status, created_at) VALUES (005, 001, 005, 'Principal', 'Activo', NOW());
 
-INSERT INTO categories (id, usr_id, code, name, status, created_at) VALUES (001, 001, 'CAT-002', 'Gastos' , 'Activo', NOW());
+INSERT INTO genders (id, usr_id, code, name, status, created_at) VALUES (001, 001, 'GRP-001', 'Gastos' , 'Activo', NOW());
+
+INSERT INTO categories (id, usr_id, gen_id, code, name, status, created_at) VALUES (001, 001, 001, 'CAT-001', 'Gasto general' , 'Activo', NOW());
 
 INSERT INTO classifications (id, usr_id, code, name, status, created_at) VALUES (001, 001, 'CLS-002', 'Ingreso', 'Activo', NOW());
 

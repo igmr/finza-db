@@ -1,3 +1,4 @@
+
 DROP DATABASE IF EXISTS dbFinzaApp;
 CREATE DATABASE IF NOT EXISTS dbFinzaApp;
 USE dbFinzaApp;
@@ -83,24 +84,6 @@ CREATE TABLE banks (
     CONSTRAINT   fkUserBank  FOREIGN KEY (usr_id) REFERENCES users (id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS categories;
-CREATE TABLE categories (
-    id          BIGINT       UNSIGNED                   NOT NULL AUTO_INCREMENT,
-    usr_id      BIGINT       UNSIGNED                            DEFAULT NULL,
-    code        VARCHAR(10)  COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
-    name        VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    icon        VARCHAR(15)  COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
-    file        VARCHAR(150) COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
-    observation TEXT         COLLATE utf8mb4_unicode_ci,
-    status      VARCHAR(20)  COLLATE utf8mb4_unicode_ci          DEFAULT 'Activo',
-    created_at  TIMESTAMP                                   NULL DEFAULT NULL,
-    updated_at  TIMESTAMP                                   NULL DEFAULT NULL,
-    deleted_at  TIMESTAMP                                   NULL DEFAULT NULL,
-    CONSTRAINT  pkCategory     PRIMARY KEY (id),
-    CONSTRAINT  pkCategory     UNIQUE KEY  (name),
-    CONSTRAINT  pkUserCategory FOREIGN KEY (usr_id) REFERENCES users (id) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 DROP TABLE IF EXISTS classifications;
 CREATE TABLE classifications (
     id          BIGINT       UNSIGNED                   NOT NULL AUTO_INCREMENT,
@@ -117,6 +100,45 @@ CREATE TABLE classifications (
     CONSTRAINT  pkClassification     PRIMARY KEY (id),
     CONSTRAINT  pkClassification     UNIQUE KEY  (name),
     CONSTRAINT  ukUserClassification FOREIGN KEY (usr_id) REFERENCES users (id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS genders;
+CREATE TABLE genders
+(
+    id          BIGINT       UNSIGNED                   NOT NULL AUTO_INCREMENT,
+    usr_id      BIGINT       UNSIGNED                            DEFAULT NULL,
+    code        CHAR(10)     COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
+    name        VARCHAR(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
+    icon        VARCHAR(15)  COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
+    file        VARCHAR(150) COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
+    observation TEXT         COLLATE utf8mb4_unicode_ci,
+    status      VARCHAR(20)  COLLATE utf8mb4_unicode_ci          DEFAULT 'Activo',
+    created_at  TIMESTAMP                                   NULL DEFAULT NULL,
+    updated_at  TIMESTAMP                                   NULL DEFAULT NULL,
+    deleted_at  TIMESTAMP                                   NULL DEFAULT NULL,
+    CONSTRAINT  pkGroup     PRIMARY KEY (id),
+    CONSTRAINT  pkGroup     UNIQUE KEY  (name),
+    CONSTRAINT  pkUserGroup FOREIGN KEY (usr_id) REFERENCES users (id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS categories;
+CREATE TABLE categories (
+    id          BIGINT       UNSIGNED                   NOT NULL AUTO_INCREMENT,
+    usr_id      BIGINT       UNSIGNED                            DEFAULT NULL,
+    gen_id      BIGINT       UNSIGNED                            DEFAULT NULL,
+    code        VARCHAR(10)  COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
+    name        VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    icon        VARCHAR(15)  COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
+    file        VARCHAR(150) COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
+    observation TEXT         COLLATE utf8mb4_unicode_ci,
+    status      VARCHAR(20)  COLLATE utf8mb4_unicode_ci          DEFAULT 'Activo',
+    created_at  TIMESTAMP                                   NULL DEFAULT NULL,
+    updated_at  TIMESTAMP                                   NULL DEFAULT NULL,
+    deleted_at  TIMESTAMP                                   NULL DEFAULT NULL,
+    CONSTRAINT  pkCategory       PRIMARY KEY (id),
+    CONSTRAINT  pkCategory       UNIQUE KEY  (name),
+    CONSTRAINT  pkUserCategory   FOREIGN KEY (usr_id) REFERENCES users   (id) ON DELETE SET NULL,
+    CONSTRAINT  pkGenderCategory FOREIGN KEY (gen_id) REFERENCES genders (id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS debts;
@@ -158,7 +180,6 @@ CREATE TABLE savings (
     CONSTRAINT  ukSaving     UNIQUE KEY  (name),
     CONSTRAINT  fkUserSaving FOREIGN KEY (usr_id) REFERENCES users (id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 
 DROP TABLE IF EXISTS accounts;
 CREATE TABLE accounts (
