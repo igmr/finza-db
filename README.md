@@ -279,6 +279,28 @@ CREATE TABLE egresses (
     CONSTRAINT  fkUserEgress     FOREIGN KEY (usr_id) REFERENCES users (id)      ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+DROP TABLE IF EXISTS transactions;
+CREATE TABLE transactions (
+    id          BIGINT       UNSIGNED                   NOT NULL AUTO_INCREMENT,
+    usr_id      BIGINT       UNSIGNED                            DEFAULT NULL,
+    ing_id      BIGINT       UNSIGNED                            DEFAULT NULL,
+    egr_id      BIGINT       UNSIGNED                            DEFAULT NULL,
+    concept     VARCHAR(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
+    description VARCHAR(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
+    reference   VARCHAR(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
+    amount      DOUBLE                                           DEFAULT '0',
+    file        VARCHAR(150) COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
+    observation TEXT         COLLATE utf8mb4_unicode_ci,
+    status      VARCHAR(20)  COLLATE utf8mb4_unicode_ci          DEFAULT 'Activo',
+    created_at  TIMESTAMP                                   NULL DEFAULT NULL,
+    updated_at  TIMESTAMP                                   NULL DEFAULT NULL,
+    deleted_at  TIMESTAMP                                   NULL DEFAULT NULL,
+    CONSTRAINT  pkTransaction        PRIMARY KEY (id),
+    CONSTRAINT  fkIngressTransaction FOREIGN KEY (ing_id) REFERENCES ingresses (id) ON DELETE SET NULL,
+    CONSTRAINT  fkEgressTransaction  FOREIGN KEY (egr_id) REFERENCES egresses (id)  ON DELETE SET NULL,
+    CONSTRAINT  fkUserTransaction    FOREIGN KEY (usr_id) REFERENCES users (id)     ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 ```
 
 ## Script Insert SQL
