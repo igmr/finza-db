@@ -285,6 +285,8 @@ CREATE TABLE transactions (
     usr_id      BIGINT       UNSIGNED                            DEFAULT NULL,
     ing_id      BIGINT       UNSIGNED                            DEFAULT NULL,
     egr_id      BIGINT       UNSIGNED                            DEFAULT NULL,
+    acc_ing_id  BIGINT       UNSIGNED                            DEFAULT NULL,
+    acc_egr_id  BIGINT       UNSIGNED                            DEFAULT NULL,
     concept     VARCHAR(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
     description VARCHAR(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
     reference   VARCHAR(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
@@ -295,10 +297,12 @@ CREATE TABLE transactions (
     created_at  TIMESTAMP                                   NULL DEFAULT NULL,
     updated_at  TIMESTAMP                                   NULL DEFAULT NULL,
     deleted_at  TIMESTAMP                                   NULL DEFAULT NULL,
-    CONSTRAINT  pkTransaction        PRIMARY KEY (id),
-    CONSTRAINT  fkIngressTransaction FOREIGN KEY (ing_id) REFERENCES ingresses (id) ON DELETE SET NULL,
-    CONSTRAINT  fkEgressTransaction  FOREIGN KEY (egr_id) REFERENCES egresses (id)  ON DELETE SET NULL,
-    CONSTRAINT  fkUserTransaction    FOREIGN KEY (usr_id) REFERENCES users (id)     ON DELETE SET NULL
+    CONSTRAINT  pkTransaction               PRIMARY KEY (id),
+    CONSTRAINT  fkIngressTransaction        FOREIGN KEY (ing_id)     REFERENCES ingresses (id) ON DELETE SET NULL,
+    CONSTRAINT  fkEgressTransaction         FOREIGN KEY (egr_id)     REFERENCES egresses (id)  ON DELETE SET NULL,
+    CONSTRAINT  fkAccountIngressTransaction FOREIGN KEY (acc_ing_id) REFERENCES accounts (id)  ON DELETE SET NULL,
+    CONSTRAINT  fkAccountEgressTransaction  FOREIGN KEY (acc_egr_id) REFERENCES accounts (id)  ON DELETE SET NULL,
+    CONSTRAINT  fkUserTransaction           FOREIGN KEY (usr_id)     REFERENCES users (id)     ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 ```
