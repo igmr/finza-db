@@ -330,11 +330,11 @@ INSERT INTO banks (id, usr_id, name, status, created_at) VALUES (003, 001, 'BBVA
 INSERT INTO banks (id, usr_id, name, status, created_at) VALUES (004, 001, 'Hey Banco'     , 'Activo', NOW());
 INSERT INTO banks (id, usr_id, name, status, created_at) VALUES (005, 001, 'Banbajio'      , 'Activo', NOW());
 
-INSERT INTO accounts (id, usr_id, ban_id, name, status, created_at) VALUES (001, 001, 001, 'Principal', 'Activo', NOW());
-INSERT INTO accounts (id, usr_id, ban_id, name, status, created_at) VALUES (002, 001, 002, 'Principal', 'Activo', NOW());
-INSERT INTO accounts (id, usr_id, ban_id, name, status, created_at) VALUES (003, 001, 003, 'Principal', 'Activo', NOW());
-INSERT INTO accounts (id, usr_id, ban_id, name, status, created_at) VALUES (004, 001, 004, 'Principal', 'Activo', NOW());
-INSERT INTO accounts (id, usr_id, ban_id, name, status, created_at) VALUES (005, 001, 005, 'Principal', 'Activo', NOW());
+INSERT INTO accounts (id, usr_id, ban_id, name, status, created_at) VALUES (001, 001, 001, 'Efectivo'       , 'Activo', NOW());
+INSERT INTO accounts (id, usr_id, ban_id, name, status, created_at) VALUES (002, 001, 002, 'Banco Azteca'   , 'Activo', NOW());
+INSERT INTO accounts (id, usr_id, ban_id, name, status, created_at) VALUES (003, 001, 003, 'BBVA'           , 'Activo', NOW());
+INSERT INTO accounts (id, usr_id, ban_id, name, status, created_at) VALUES (004, 001, 004, 'Hey Banco'      , 'Activo', NOW());
+INSERT INTO accounts (id, usr_id, ban_id, name, status, created_at) VALUES (005, 001, 005, 'Banbajio'       , 'Activo', NOW());
 
 INSERT INTO genders (id, usr_id, code, name, status, created_at) VALUES (001, 001, 'GRP-001', 'Gastos' , 'Activo', NOW());
 
